@@ -1,6 +1,7 @@
 
 require("dotenv").config();
 
+const fs = require("fs");
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
@@ -15,20 +16,29 @@ if (!process.env.JWT_SECRET) {
     process.exit(1);
 }
 
+const frontendUrl = process.env.FRONTEND_URL || "http://127.0.0.1:5500";
+
 app.use(cors({
-    origin: true,
+    origin: frontendUrl,
     credentials: true
 }));
 
 app.use(express.json());
 app.use(cookieParser());
 
-// Database connection
+// Database Connection
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "priyanshi@1234",
-    database: "billing_system"
+    host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT || 3306),
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || "billing_system",
+
+    ssl: process.env.DB_SSL === "true"
+        ? {
+            ca: fs.readFileSync(process.env.DB_SSL_CA)
+        }
+        : undefined
 });
 
 db.connect((err) => {
@@ -40,15 +50,17 @@ db.connect((err) => {
     console.log("Database connected successfully!");
 });
 
-// Login cookie settings
+// Cookie Settings
+const isProduction = process.env.NODE_ENV === "production";
+
 const cookieOptions = {
     httpOnly: true,
-    secure: false, // Localhost development
-    sameSite: "lax",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000
 };
 
-// Authentication middleware
+// Authentication Middleware
 function authenticateToken(req, res, next) {
     const token = req.cookies.authToken;
 
@@ -71,12 +83,12 @@ function authenticateToken(req, res, next) {
     }
 }
 
-// Home route
+// Home Route
 app.get("/", (req, res) => {
     res.send("Billing System Server is running!");
 });
 
-// Create first admin account (only when users table is empty)
+// Setup Admin
 app.post("/setup-admin", async (req, res) => {
     const { username, password } = req.body;
 
@@ -157,6 +169,7 @@ app.post("/login", (req, res) => {
 
             try {
                 const user = results[0];
+
                 const passwordMatch = await bcrypt.compare(
                     password,
                     user.password
@@ -183,6 +196,7 @@ app.post("/login", (req, res) => {
                     message: "Login successful!",
                     username: user.username
                 });
+
             } catch (error) {
                 console.log(error);
                 res.status(500).send("Login process mein error aaya.");
@@ -191,7 +205,7 @@ app.post("/login", (req, res) => {
     );
 });
 
-// Check login status
+// Check Login Status
 app.get("/auth-status", authenticateToken, (req, res) => {
     res.json({
         loggedIn: true,
@@ -205,7 +219,7 @@ app.post("/logout", (req, res) => {
     res.json({ message: "Logout successful!" });
 });
 
-// Get all products
+// Get Products
 app.get("/products", authenticateToken, (req, res) => {
     const sql = "SELECT * FROM products ORDER BY id DESC";
 
@@ -219,7 +233,7 @@ app.get("/products", authenticateToken, (req, res) => {
     });
 });
 
-// Add new product
+// Add Product
 app.post("/products", authenticateToken, (req, res) => {
     const { product_name, price, stock } = req.body;
 
@@ -253,7 +267,7 @@ app.post("/products", authenticateToken, (req, res) => {
     );
 });
 
-// Complete sale
+// Complete Sale
 app.post("/sales", authenticateToken, (req, res) => {
     const { items } = req.body;
 
@@ -403,7 +417,7 @@ app.post("/sales", authenticateToken, (req, res) => {
     });
 });
 
-// Get today's sales
+// Today's Sales
 app.get("/today-sales", authenticateToken, (req, res) => {
     const sql = `
         SELECT COALESCE(SUM(total_amount), 0) AS todaySales
@@ -421,7 +435,7 @@ app.get("/today-sales", authenticateToken, (req, res) => {
     });
 });
 
-// Get yesterday's sales
+// Yesterday's Sales
 app.get("/yesterday-sales", authenticateToken, (req, res) => {
     const sql = `
         SELECT COALESCE(SUM(total_amount), 0) AS yesterdaySales
@@ -439,7 +453,9 @@ app.get("/yesterday-sales", authenticateToken, (req, res) => {
     });
 });
 
-// Start server
-app.listen(3000, () => {
-    console.log("Server running at http://localhost:3000");
+// Start Server
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
