@@ -1,0 +1,497 @@
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f3f6f8;
+    color: #26352e;
+}
+
+/* MAIN LAYOUT */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    background: #123b30;
+    color: white;
+    padding: 28px 18px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 8px 35px;
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    background: #35a879;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.brand h2 {
+    font-size: 21px;
+}
+
+.brand small {
+    color: #b7d5c8;
+}
+
+.menu-label {
+    color: #91b5a6;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin: 10px 12px 15px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.nav-link {
+    color: #d7e9e0;
+    text-decoration: none;
+    padding: 14px 13px;
+    border-radius: 9px;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: #267a58;
+    color: white;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 15px 10px;
+    border-top: 1px solid #356052;
+    color: #d7e9e0;
+}
+
+.sidebar-bottom small {
+    color: #9ebdb0;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    padding: 30px 35px;
+}
+
+/* TOP BAR */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.welcome {
+    color: #718078;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.topbar h1 {
+    font-size: 27px;
+    color: #173e31;
+}
+
+.admin-label {
+    background: white;
+    padding: 11px 18px;
+    border-radius: 9px;
+    color: #176b4d;
+    font-weight: 600;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+}
+
+/* SECTION HEADING */
+.section-heading {
+    margin-bottom: 20px;
+}
+
+.section-heading h2 {
+    font-size: 21px;
+    color: #183e31;
+    margin-bottom: 6px;
+}
+
+.section-heading p {
+    color: #849087;
+    font-size: 14px;
+}
+
+/* DASHBOARD CARDS */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.card {
+    background: white;
+    padding: 23px;
+    border-radius: 13px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    border: 1px solid #e9efeb;
+    transition: 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.card-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    background: #e4f4eb;
+    color: #176b4d;
+    border-radius: 11px;
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.card p {
+    color: #77847c;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.card h2 {
+    color: #173e31;
+    font-size: 27px;
+}
+
+/* PANELS */
+.panel {
+    background: white;
+    padding: 27px;
+    border-radius: 14px;
+    margin-bottom: 28px;
+    border: 1px solid #e8eeea;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.035);
+}
+
+.inner-panel {
+    background: #f7faf8;
+    border: 1px solid #e7eee9;
+    border-radius: 11px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.inner-panel h3,
+.table-heading h3 {
+    color: #294d3d;
+    margin-bottom: 16px;
+    font-size: 16px;
+}
+
+.table-heading {
+    margin-bottom: 10px;
+}
+
+/* FORMS */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+}
+
+input,
+select {
+    flex: 1;
+    min-width: 150px;
+    padding: 13px 14px;
+    border: 1px solid #dce5df;
+    border-radius: 8px;
+    background: white;
+    font-size: 14px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #25845e;
+    box-shadow: 0 0 0 3px rgba(37,132,94,0.1);
+}
+
+/* BUTTONS */
+button {
+    background: #21845d;
+    color: white;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #145b40;
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* TABLES */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e7eee9;
+    border-radius: 9px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 500px;
+}
+
+th {
+    background: #eaf4ee;
+    color: #245b40;
+    font-size: 13px;
+    padding: 15px 12px;
+    text-align: center;
+}
+
+td {
+    padding: 14px 12px;
+    text-align: center;
+    border-top: 1px solid #edf1ee;
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #f5faf6;
+}
+
+#emptyProducts {
+    text-align: center;
+    color: #87938b;
+    padding: 18px;
+}
+
+/* BILL FOOTER */
+.bill-footer {
+    margin-top: 25px;
+    padding: 20px;
+    background: #f1f8f3;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.bill-footer h2 {
+    color: #176b4d;
+    font-size: 21px;
+}
+
+.bill-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#printBill {
+    background: #244638;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    color: #89958d;
+    padding: 22px;
+    font-size: 13px;
+}
+
+/* PRINT INVOICE */
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+
+    #billPrintHeader,
+    #billPrintHeader * {
+        visibility: visible !important;
+    }
+
+    #billPrintHeader {
+        display: block !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 30px;
+        background: white;
+        color: black;
+    }
+
+    #billPrintHeader h1 {
+        color: #176b4d;
+        margin-bottom: 12px;
+    }
+
+    #billPrintHeader table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    #billPrintHeader th {
+        background: #176b4d !important;
+        color: white !important;
+    }
+
+    #billPrintHeader td,
+    #billPrintHeader th {
+        border: 1px solid #ccc;
+        padding: 12px;
+    }
+}
+
+/* TABLET */
+@media (max-width: 1000px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-content {
+        padding: 25px 20px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 650px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+    }
+
+    .brand {
+        padding-bottom: 15px;
+    }
+
+    .menu-label,
+    .sidebar-bottom {
+        display: none;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .nav-link {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .app-layout {
+        display: block;
+    }
+
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 20px 14px;
+    }
+
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .card h2 {
+        font-size: 21px;
+    }
+
+    .topbar {
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .topbar h1 {
+        font-size: 21px;
+    }
+
+    .admin-label {
+        font-size: 12px;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    input,
+    select {
+        width: 100%;
+    }
+
+    .bill-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 380px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}

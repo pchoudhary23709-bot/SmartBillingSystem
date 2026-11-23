@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Billing Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- LOGIN SECTION -->
+<section id="loginSection" class="auth-section">
+
+    <div class="auth-card">
+        <div class="brand-icon">S</div>
+        <h1>SmartBill</h1>
+        <p>Billing Management System</p>
+
+        <div id="loginBox">
+            <h2>Admin Login</h2>
+
+            <form id="loginForm">
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Enter Username"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter Password"
+                    required
+                >
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p id="loginMessage"></p>
+
+            <p>
+                First time here?
+                <a href="#" id="showSetup">Create Admin Account</a>
+            </p>
+        </div>
+
+        <div id="setupBox" style="display:none;">
+            <h2>Create Admin Account</h2>
+
+            <form id="setupForm">
+                <input
+                    type="text"
+                    id="setupUsername"
+                    placeholder="Create Username"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="setupPassword"
+                    placeholder="Create Password (Minimum 8 characters)"
+                    minlength="8"
+                    required
+                >
+
+                <button type="submit">Create Account</button>
+            </form>
+
+            <p id="setupMessage"></p>
+
+            <p>
+                Already registered?
+                <a href="#" id="showLogin">Back to Login</a>
+            </p>
+        </div>
+    </div>
+
+</section>
+
+<!-- MAIN DASHBOARD -->
+<div class="app-layout" id="appLayout" style="display:none;">
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">S</div>
+
+            <div>
+                <h2>SmartBill</h2>
+                <small>Billing System</small>
+            </div>
+        </div>
+
+        <p class="menu-label">MAIN MENU</p>
+
+        <nav>
+            <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+            <a href="#products" class="nav-link">▤ Products</a>
+            <a href="#billing" class="nav-link">▣ Create Bill</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <p>Smart Billing System</p>
+            <small>Minor Project</small>
+        </div>
+
+    </aside>
+
+    <main class="main-content">
+
+        <div class="topbar">
+
+            <div>
+                <p class="welcome">Welcome back!</p>
+                <h1>Dashboard Overview</h1>
+            </div>
+
+            <div class="admin-actions">
+                <span class="admin-label">Admin Panel</span>
+                <button type="button" id="logoutBtn">Logout</button>
+            </div>
+
+        </div>
+
+        <section id="dashboard">
+
+            <div class="section-heading">
+                <h2>Business Summary</h2>
+                <p>Your store at a glance</p>
+            </div>
+
+            <div class="dashboard">
+
+                <div class="card">
+                    <div class="card-icon">▤</div>
+                    <p>Total Products</p>
+                    <h2 id="totalProducts">0</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">▣</div>
+                    <p>Available Stock</p>
+                    <h2 id="totalStock">0</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">⚠</div>
+                    <p>Low Stock Alerts</p>
+                    <h2 id="lowStock">0</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">₹</div>
+                    <p>Today's Sales</p>
+                    <h2 id="todaySales">₹0.00</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">₹</div>
+                    <p>Yesterday's Sales</p>
+                    <h2 id="yesterdaySales">₹0.00</h2>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- PRODUCT MANAGEMENT -->
+        <section id="products" class="panel">
+
+            <div class="section-heading">
+                <h2>Product Management</h2>
+                <p>Add and manage your store products</p>
+            </div>
+
+            <div class="inner-panel">
+                <h3>Add New Product</h3>
+
+                <form id="productForm">
+
+                    <input
+                        type="text"
+                        id="productName"
+                        placeholder="Product Name"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        id="productPrice"
+                        placeholder="Price"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        id="productStock"
+                        placeholder="Stock Quantity"
+                        min="0"
+                        step="1"
+                        required
+                    >
+
+                    <button type="submit">+ Add Product</button>
+
+                </form>
+            </div>
+
+            <div class="table-heading">
+                <h3>All Products</h3>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="productList"></tbody>
+                </table>
+            </div>
+
+            <p id="emptyProducts">No products available.</p>
+
+        </section>
+
+        <!-- BILLING SECTION -->
+        <section id="billing" class="panel">
+
+            <div class="section-heading">
+                <h2>Create Customer Bill</h2>
+                <p>Add multiple products to one customer invoice</p>
+            </div>
+
+            <div class="inner-panel">
+
+                <h3>Select Products</h3>
+
+                <form id="billingForm">
+
+                    <select id="billProduct" required>
+                        <option value="">Select Product</option>
+                    </select>
+
+                    <input
+                        type="number"
+                        id="billQuantity"
+                        placeholder="Quantity"
+                        min="1"
+                        step="1"
+                        required
+                    >
+
+                    <button type="submit">+ Add to Bill</button>
+
+                </form>
+
+            </div>
+
+            <div class="table-heading">
+                <h3>Current Bill</h3>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="billList"></tbody>
+                </table>
+
+            </div>
+
+            <div class="bill-footer">
+
+                <h2>
+                    Grand Total:
+                    <span id="grandTotal">₹0.00</span>
+                </h2>
+
+                <div class="bill-actions">
+
+                    <button type="button" id="completeSale">
+                        Complete Sale
+                    </button>
+
+                    <button type="button" id="printBill">
+                        Print Bill
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div id="billPrintHeader" style="display:none;"></div>
+
+        </section>
+
+        <footer>
+            SmartBill | Billing Management System
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>
