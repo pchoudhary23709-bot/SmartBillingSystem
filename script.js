@@ -1,8 +1,8 @@
 
 "use strict";
 
-// API URL
-const API_URL = "http://127.0.0.1:3000";
+// API URL - Render Backend
+const API_URL = "https://smartbillingsystem-yyua.onrender.com";
 
 // Authentication elements
 const loginSection = document.getElementById("loginSection");
